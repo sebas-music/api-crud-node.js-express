@@ -5,12 +5,14 @@ const taskRouters = require("./routers/taskRouters");
 const errorHandler = require("./middleware/errorHandler");
 const { default: helmet } = require("helmet");
 const app = express();
-const PORT = 3000;
+// Puerto dinámico: Railway asigna uno automáticamente
+const PORT = process.env.PORT || 3000;
 
-app.use(helmet())
+app.use(helmet());
 app.use(bodyParser.json());
 app.use("/task", taskRouters);
-app.use(errorHandler)
+app.use(errorHandler);
+
 app.listen(PORT, () => {
   console.log(`Servidor activo en el puerto ${PORT}`);
 });
