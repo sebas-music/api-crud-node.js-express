@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const taskRouters = require("./routers/taskRouters");
 const errorHandler = require("./middleware/errorHandler");
+const swaggerDocs = require("./config/swagger")
 const { default: helmet } = require("helmet");
 const app = express();
 // Puerto dinámico: Railway asigna uno automáticamente
@@ -10,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(helmet());
 app.use(bodyParser.json());
+swaggerDocs(app)
 app.use("/task", taskRouters);
 app.use(errorHandler);
 
