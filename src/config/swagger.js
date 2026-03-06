@@ -1,3 +1,4 @@
+const { types } = require("pg");
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
 
@@ -5,17 +6,64 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "API de Tareas",
+      title: "API Tareas - CRUD nodeJS",
       version: "1.0.0",
-      description: "Documentación de mi API con Swagger",
+      description: "API con node.js y PostgreSQL",
     },
     servers: [
       {
-        url: "https://api-crud-nodejs-express-production.up.railway.app/task", // cambia a tu URL en Railway cuando despliegues
+        url: "https://api-crud-nodejs-express-production.up.railway.app/task",
       },
     ],
+    components: {
+      schemas: {
+        tarea: {
+          type: "object",
+          properties: {
+            id: {
+              type: "integer",
+              example: 1
+            },
+            numero: {
+              type: "integer",
+              example: 101
+            },
+            descripcion: {
+              type: "string",
+              example: "Descripcion de la tarea"
+            },
+          }
+        },
+        crearTarea: {
+          type: "object",
+          properties: {
+            numero: {
+              type: "integer",
+              example: 101
+            },
+            descripcion: {
+              type: "string",
+              example: "nueva tarea"
+            },
+          }
+        },
+        actualizarTarea: {
+          type: "object",
+          properties: {
+            numero: {
+              type: "integer",
+              example: 101
+            },
+            descripcion: {
+              type: "string",
+              example: "tarea actualizada"
+            },
+          }
+        },
+      }
+    }
   },
-  apis: ["./src/routers/*.js"], // aquí apuntas a tus archivos de rutas
+  apis: ["./src/routers/*.js"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);

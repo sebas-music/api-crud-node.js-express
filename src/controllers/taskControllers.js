@@ -39,7 +39,7 @@ const updateTask = async (req, res, next) => {
      if (!task) {
       return res.status(404).json({ error: "Tarea no encontrada" });
     }
-    res.status(201).json({message: "Tarea actualizada con exito", task});
+    res.status(200).json({message: "Tarea actualizada con exito", task});
   } catch (error) {
     next(error);
   }
@@ -67,7 +67,7 @@ const deleteTask = async (req, res, next) => {
 const getTaskById = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(404).json({ errors: errors.array() });
   }
   try {
     const { id } = req.params;
@@ -83,8 +83,8 @@ const getTaskById = async (req, res, next) => {
 
 module.exports = {
   getTasks,
+  getTaskById,
   createTask,
   updateTask,
   deleteTask,
-  getTaskById,
 };

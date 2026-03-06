@@ -7,37 +7,141 @@ const { validationBody, validationId } = require("../validations/taskValidation"
  * @swagger
  * /tasks:
  *   get:
+ *     tags: [Tareas]
  *     summary: Obtener todas las tareas
+ *     description: Retorna todas las tareas de la base de datos
  *     responses:
  *       200:
- *         description: Lista de tareas
+ *         description: Lista de tareas obtenidas correctamente
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 required:
- *                   - id
- *                   - numero
- *                   - descripcion
- *                 properties:
- *                   id:
- *                     type: integer
- *                     format: int32
- *                     example: 1
- *                   numero:
- *                     type: integer
- *                     example: 1
- *                   descripcion:
- *                     type: string
- *                     example: tarea 1
+ *                 $ref: '#/components/schemas/tarea'  
+ *       500:
+ *         description: Error en el servidor    
  */
 
-router.get("/", taskControllers.getTasks);
-router.post("/", validationBody, taskControllers.createTask,);
-router.put("/:id",[validationId,validationBody], taskControllers.updateTask);
-router.delete("/:id",validationId, taskControllers.deleteTask);
+router.get("/",taskControllers.getTasks);
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   get:
+ *     tags: [Tareas]
+ *     summary: Obtener tarea registrada por ID
+ *     description: Retorna una tarea especifica segun el ID proporcionado
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de la tarea
+ *         schema:
+ *           type: integer     
+ *     responses:
+ *       200:
+ *         description: Tarea encontrada con exito!
+ *         content:
+ *           application/json:
+ *             schema:
+ *                 $ref: '#/components/schemas/tarea'  
+ *       404:
+ *         description: Tarea no encontrada
+ *       500:
+ *         description: Error en el servidor    
+ */
+
 router.get("/:id",validationId, taskControllers.getTaskById);
+
+/**
+ * @swagger
+ * /tasks:
+ *   post:
+ *     tags: [Tareas]
+ *     summary: Crear nueva tarea
+ *     description: Se crea una nueva tarea con los datos ingresados correctamente
+ *     requestBody:
+ *         required: true
+ *         content:
+ *           application/json: 
+ *             schema:
+ *               $ref: '#/components/schemas/crearTarea'     
+ *     responses:
+ *       201:
+ *         description: Tarea creada con exito
+ *         content:
+ *           application/json:
+ *             schema:
+ *                 $ref: '#/components/schemas/tarea'  
+ *       400:
+ *         description: Datos invalidos
+ *       500:
+ *         description: Error en el servidor    
+ */
+
+router.post("/",validationBody, taskControllers.createTask);
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   put:
+ *     tags: [Tareas]
+ *     summary: Actualizar tarea existente
+ *     description: Actualizar tarea si el ID corresponde a una tarea registrada
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de la tarea
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *         required: true
+ *         content:
+ *           application/json: 
+ *             schema:
+ *               $ref: '#/components/schemas/actualizarTarea'     
+ *     responses:
+ *       200:
+ *         description: Tarea actualizada con exito
+ *         content:
+ *           application/json:
+ *             schema:
+ *                 $ref: '#/components/schemas/tarea'  
+ *       400:
+ *         description: Datos invalidos
+ *       404:
+ *         description: Tarea no encontrada
+ *       500:
+ *         description: Error en el servidor    
+ */
+
+router.put("/:id",[validationId,validationBody], taskControllers.updateTask);
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   delete:
+ *     tags: [Tareas]
+ *     summary: Eliminar tarea por ID
+ *     description: Se elimina una tarea segun el ID registrado
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de la tarea
+ *         schema:
+ *           type: integer     
+ *     responses:
+ *       204:
+ *         description: Tarea eliminada con exito
+ *       404:
+ *         description: Tarea no encontrada
+ *       500:
+ *         description: Error en el servidor    
+ */
+
+router.delete("/:id",validationId, taskControllers.deleteTask);
 
 module.exports = router;
