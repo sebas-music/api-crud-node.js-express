@@ -14,7 +14,9 @@ app.use(bodyParser.json());
 swaggerDocs(app)
 app.use("/task", taskRouters);
 app.use(errorHandler);
-
+app.get("/", (req,res) =>{
+  res.redirect("/api-docs")
+})
 app.listen(PORT, () => {
   console.log(`Servidor activo en el puerto ${PORT}`);
 });
