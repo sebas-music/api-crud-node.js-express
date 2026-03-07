@@ -2,15 +2,17 @@ const { body, param } = require("express-validator");
 
 const validationBody = [
   body("numero")
+    .exists()
+    .withMessage("El campo numero es obligatorio")
     .isInt({ min: 1 })
-    .withMessage("Error, debe ser un numero entero")
+    .withMessage("Error debe ser un numero entero y mayor que 0")
     .toInt(),
   body("descripcion")
+    .optional()
     .isLength({ min: 3 })
     .withMessage("La descripción debe tener al menos 3 caracteres")
     .trim()
-    .escape()
-    .optional(),
+    .escape(),
 ];
 
 const validationId = [

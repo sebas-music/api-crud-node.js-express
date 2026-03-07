@@ -1,4 +1,3 @@
-const { validationResult } = require("express-validator");
 const taskModel = require("../models/taskModels");
 
 //consultar datos
@@ -13,10 +12,6 @@ const getTasks = async (req, res, next) => {
 
 //crear datos
 const createTask = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
   try {
     const { numero, descripcion } = req.body;
     const newTask = await taskModel.createTask(numero, descripcion);
@@ -28,10 +23,6 @@ const createTask = async (req, res, next) => {
 
 //actualizar datos
 const updateTask = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
   try {
     const { id } = req.params;
     const { numero, descripcion } = req.body;
@@ -47,10 +38,6 @@ const updateTask = async (req, res, next) => {
 
 //eliminar datos
 const deleteTask = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
   try {
     const { id } = req.params;
     const task = await taskModel.deleteTask(id);
@@ -65,10 +52,6 @@ const deleteTask = async (req, res, next) => {
 
 //consultar datos
 const getTaskById = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(404).json({ errors: errors.array() });
-  }
   try {
     const { id } = req.params;
     const task = await taskModel.getTaskById(id);

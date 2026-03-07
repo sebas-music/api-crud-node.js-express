@@ -1,29 +1,39 @@
 const pool = require("./config/db");
 const express = require("express");
-const bodyParser = require("body-parser");
 const taskRouters = require("./routers/taskRouters");
 const errorHandler = require("./middleware/errorHandler");
-const swaggerDocs = require("./config/swagger")
-const { default: helmet } = require("helmet");
+const notFoundHandler = require("./middleware/notFoundHandler");
+const swaggerDocs = require("./config/swagger");
+const helmet = require("helmet");
+
 const app = express();
-// Puerto dinámico: Railway asigna uno automáticamente
 const PORT = process.env.PORT || 3000;
 
+//configuracion global globales
 app.use(helmet());
-app.use(bodyParser.json());
-swaggerDocs(app)
-app.use("/task", taskRouters);
-app.use(errorHandler);
-app.get("/", (req,res) =>{
-  res.redirect("/api-docs")
-})
-app.listen(PORT, () => {
-  console.log(`Servidor activo en el puerto ${PORT}`);
+app.use(express.json());
+swaggerDocs(app);
+
+//rutas iniciales
+app.use("/tasks", taskRouters);
+app.get("/", (req, res) => {
+  res.redirect("/api-docs");
 });
 
+//manejador de rutas no existentes
+app.use(notFoundHandler);
+
+//errores internos de servidor
+app.use(errorHandler);
+
+//conexion a la base de datos y servidor
 pool.connect()
   .then(() => {
     console.log("✅ Conexión a la base de datos exitosa");
+
+    app.listen(PORT, () => {
+    console.log(`Servidor activo en http://localhost:${PORT}`);
+  });
   })
   .catch((err) => {
     console.error("❌ Error en la conexión a la base de datos:", err.message);
