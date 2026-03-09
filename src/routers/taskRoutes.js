@@ -6,7 +6,7 @@ const validationHandler = require("../middleware/validationHandler");
 
 /**
  * @swagger
- * /tasks:
+ * /api/v1/tasks:
  *   get:
  *     tags: [Tareas]
  *     summary: Obtener todas las tareas
@@ -30,7 +30,7 @@ router.get("/", taskControllers.getTasks);
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /api/v1/tasks/{id}:
  *   get:
  *     tags: [Tareas]
  *     summary: Obtener tarea registrada por ID
@@ -64,7 +64,7 @@ router.get(
 
 /**
  * @swagger
- * /tasks:
+ * /api/v1/tasks:
  *   post:
  *     tags: [Tareas]
  *     summary: Crear nueva tarea
@@ -92,7 +92,7 @@ router.post("/", validationBody, validationHandler, taskControllers.createTask);
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /api/v1/tasks/{id}:
  *   put:
  *     tags: [Tareas]
  *     summary: Actualizar tarea existente
@@ -134,7 +134,7 @@ router.put(
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /api/v1/tasks/{id}:
  *   delete:
  *     tags: [Tareas]
  *     summary: Eliminar tarea por ID

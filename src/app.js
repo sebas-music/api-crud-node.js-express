@@ -4,18 +4,27 @@ const taskRoutes = require("./routers/taskRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const notFoundHandler = require("./middleware/notFoundHandler");
 const swaggerDocs = require("./config/swagger");
+const cors = require("cors");
 const helmet = require("helmet");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 //configuracion global
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: ["'self'", "https:", "http:"],
+    }
+  }
+}));
+app.use(cors());
 app.use(express.json());
 swaggerDocs(app);
 
 //rutas iniciales
-app.use("/tasks", taskRoutes);
+app.use("/api/v1/tasks", taskRoutes);
 app.get("/", (req, res) => {
   res.redirect("/api-docs");
 });
@@ -32,8 +41,8 @@ pool.connect()
     console.log("✅ Conexión a la base de datos exitosa");
 
     app.listen(PORT, () => {
-    console.log(`Servidor activo en http://localhost:${PORT}`);
-  });
+      console.log(`Servidor activo en http://localhost:${PORT}`);
+    });
   })
   .catch((err) => {
     console.error("❌ Error en la conexión a la base de datos:", err.message);

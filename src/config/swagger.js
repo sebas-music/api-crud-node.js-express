@@ -24,7 +24,8 @@ Este proyecto demuestra buenas prácticas de backend:
     },
     servers: [
       {
-        url: "https://api-crud-nodejs-express-production.up.railway.app",
+        url: process.env.BASE_URL || "http://localhost:3000",
+        description: "Servidor API"
       },
     ],
     tags: [
