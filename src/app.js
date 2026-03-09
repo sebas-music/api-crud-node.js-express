@@ -1,11 +1,13 @@
-const pool = require("./config/db");
 const express = require("express");
-const taskRoutes = require("./routers/taskRoutes");
+const morgan = require("morgan");
 const errorHandler = require("./middleware/errorHandler");
 const notFoundHandler = require("./middleware/notFoundHandler");
 const swaggerDocs = require("./config/swagger");
 const cors = require("cors");
+const taskRoutes = require("./routers/taskRoutes");
+const pool = require("./config/db");
 const helmet = require("helmet");
+const rateLimit = require("./middleware/rateLimiter");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +22,8 @@ app.use(helmet({
   }
 }));
 app.use(cors());
+app.use(morgan("dev"))
+app.use(rateLimit)
 app.use(express.json());
 swaggerDocs(app);
 
