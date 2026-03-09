@@ -1,6 +1,6 @@
 const pool = require("./config/db");
 const express = require("express");
-const taskRouters = require("./routers/taskRouters");
+const taskRoutes = require("./routers/taskRoutes");
 const errorHandler = require("./middleware/errorHandler");
 const notFoundHandler = require("./middleware/notFoundHandler");
 const swaggerDocs = require("./config/swagger");
@@ -9,13 +9,13 @@ const helmet = require("helmet");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-//configuracion global globales
+//configuracion global
 app.use(helmet());
 app.use(express.json());
 swaggerDocs(app);
 
 //rutas iniciales
-app.use("/tasks", taskRouters);
+app.use("/tasks", taskRoutes);
 app.get("/", (req, res) => {
   res.redirect("/api-docs");
 });

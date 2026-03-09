@@ -1,10 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const taskControllers = require("../controllers/taskControllers");
-const {
-  validationBody,
-  validationId,
-} = require("../validations/taskValidation");
+const {validationBody,validationId} = require("../validations/taskValidation");
 const validationHandler = require("../middleware/validationHandler");
 
 /**

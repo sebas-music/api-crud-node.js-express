@@ -3,7 +3,7 @@
 API REST para gestión de tareas desarrollada con **Node.js**, **Express** y **PostgreSQL**.
 El proyecto implementa operaciones CRUD completas, validación de datos, manejo centralizado de errores y documentación automática con Swagger.
 
-## 🚀 Deploy
+## 🚀 Deploy 
 
 La API está desplegada en la nube usando Railway.
 
