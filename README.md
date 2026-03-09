@@ -126,7 +126,6 @@ PGPASSWORD=password
 PGHOST=localhost
 PGPORT=5432
 PGDATABASE=nombre_db
-PORT=3000
 ```
 
 ## 🛡️ Características del proyecto
