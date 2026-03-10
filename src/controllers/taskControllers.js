@@ -1,10 +1,29 @@
 const taskModel = require("../models/taskModels");
+const {successResponse, errorResponse} = require("../utils/response");
+
 
 //consultar datos
 const getTasks = async (req, res, next) => {
   try {
-    const task = await taskModel.getTasks();
-    res.json(task);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+
+    const offset = (page - 1) * limit;
+
+    const {tasks, total} = await taskModel.getTasks(limit,offset);
+
+    const totalPages = Math.ceil(total/limit)
+
+    successResponse(res,{
+      tasks,
+      pagination : {
+        total,
+        page,
+        limit,
+        totalPages
+      }
+    },"Lista de tareas")
+
   } catch (error) {
     next(error);
   }
@@ -15,7 +34,7 @@ const createTask = async (req, res, next) => {
   try {
     const { numero, descripcion } = req.body;
     const newTask = await taskModel.createTask(numero, descripcion);
-    res.status(201).json({message: "Tarea creada con exito", newTask});
+    successResponse(res,newTask,"Tarea creada con exito", 201);
   } catch (error) {
     next(error);
   }
@@ -28,9 +47,9 @@ const updateTask = async (req, res, next) => {
     const { numero, descripcion } = req.body;
     const task = await taskModel.updateTask(id, numero, descripcion);
      if (!task) {
-      return res.status(404).json({ error: "Tarea no encontrada" });
+     return errorResponse(res,"Tarea no encontrada", 404);
     }
-    res.status(200).json({message: "Tarea actualizada con exito", task});
+    successResponse(res,task,"Tarea actualizada con exito");
   } catch (error) {
     next(error);
   }
@@ -42,9 +61,9 @@ const deleteTask = async (req, res, next) => {
     const { id } = req.params;
     const task = await taskModel.deleteTask(id);
     if (!task) {
-      return res.status(404).json({ error: "Tarea no encontrada" });
+      return errorResponse(res,"Tarea no encontrada", 404);
     }
-    res.json({ message: "Tarea eliminada con exito!", task });
+    successResponse(res,task,"Tarea eliminada con exito");
   } catch (error) {
     next(error);
   }
@@ -56,9 +75,9 @@ const getTaskById = async (req, res, next) => {
     const { id } = req.params;
     const task = await taskModel.getTaskById(id);
     if (!task) {
-      return res.status(404).json({ error: "Tarea no encontrada" });
+      return errorResponse(res,"Tarea no encontrada", 404);
     }
-    res.json({ message: "Tarea encontrada con exito!", task });
+    successResponse(res,task,"Tarea encontrada con exito");
   } catch (error) {
     next(error);
   }

@@ -1,3 +1,4 @@
+require("dotenv/config");
 const express = require("express");
 const morgan = require("morgan");
 const errorHandler = require("./middleware/errorHandler");
@@ -13,17 +14,19 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 //configuracion global
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      connectSrc: ["'self'", "https:", "http:"],
-    }
-  }
-}));
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: ["'self'", "https:", "http:"],
+      },
+    },
+  }),
+);
 app.use(cors());
-app.use(morgan("dev"))
-app.use(rateLimit)
+app.use(morgan("dev"));
+app.use(rateLimit);
 app.use(express.json());
 swaggerDocs(app);
 
@@ -40,7 +43,8 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 //conexion a la base de datos y servidor
-pool.connect()
+pool
+  .connect()
   .then(() => {
     console.log("✅ Conexión a la base de datos exitosa");
 

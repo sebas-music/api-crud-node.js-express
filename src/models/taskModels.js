@@ -1,10 +1,22 @@
 const pg = require("../config/db");
 
 //consultar datos
-const getTasks = async () => {
+const getTasks = async (limit, offset) => {
   try {
-    const res = await pg.query("SELECT * FROM tareas");
-    return res.rows;
+    const tasksQuery = await pg.query(
+      "SELECT * FROM tareas ORDER BY id LIMIT $1 OFFSET $2",
+    [limit, offset])
+
+    const countQuery = await pg.query(
+      "SELECT COUNT(*) FROM tareas")
+    
+    const total = parseInt(countQuery.rows[0].count)  
+
+    return {
+      tasks: tasksQuery.rows,
+      total
+    }
+
   } catch (error) {
     throw error;
   }

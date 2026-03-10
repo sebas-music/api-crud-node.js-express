@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "shuttle.proxy.rlwy.net",
+            "port": 56411,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "Railway DB",
+            "database": "railway",
+            "username": "postgres"
+        }
+    ]
+}
