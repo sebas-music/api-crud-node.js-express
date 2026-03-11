@@ -1,4 +1,25 @@
+# dependencies
 node_modules/
+
+# environment variables
 .env
+
+# local sql sessions
 *.session.sql
+
+# vscode config
 .vscode/
+
+# logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# coverage
+coverage/
+
+# build
+dist/

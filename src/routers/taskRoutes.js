@@ -10,16 +10,29 @@ const validationHandler = require("../middleware/validationHandler");
  *   get:
  *     tags: [Tareas]
  *     summary: Obtener todas las tareas
- *     description: Retorna todas las tareas de la base de datos
+ *     description: Retorna las tareas de la base de datos con paginacion
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         description: Numero de pagina
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *       - in: query
+ *         name: limit
+ *         required: false
+ *         description: Cantidad de registros
+ *         schema:
+ *           type: integer
+ *           example: 5
  *     responses:
  *       200:
  *         description: Lista de tareas obtenidas correctamente
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/tarea'
+ *               $ref: '#/components/schemas/respuestaListaTareas'
  *       404:
  *         description: Ruta no encontrada
  *       500:
@@ -48,7 +61,7 @@ router.get("/", taskControllers.getTasks);
  *         content:
  *           application/json:
  *             schema:
- *                 $ref: '#/components/schemas/tarea'
+ *                 $ref: '#/components/schemas/tareaId'
  *       404:
  *         description: Tarea no encontrada
  *       500:
@@ -81,7 +94,7 @@ router.get(
  *         content:
  *           application/json:
  *             schema:
- *                 $ref: '#/components/schemas/tarea'
+ *                 $ref: '#/components/schemas/tareaCreada'
  *       400:
  *         description: Datos invalidos
  *       500:
@@ -109,14 +122,14 @@ router.post("/", validationBody, validationHandler, taskControllers.createTask);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/actualizarTarea'
+ *               $ref: '#/components/schemas/modificarTarea'
  *     responses:
  *       200:
  *         description: Tarea actualizada con exito
  *         content:
  *           application/json:
  *             schema:
- *                 $ref: '#/components/schemas/tarea'
+ *               $ref: '#/components/schemas/actualizarTarea'
  *       400:
  *         description: Datos invalidos
  *       404:
