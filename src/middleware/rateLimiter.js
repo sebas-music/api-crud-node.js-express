@@ -4,7 +4,7 @@ const rateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   message: {
-    sucess: false,
+    success: false,
     message: "Demasiadas solicitudes, intenta mas tarde",
   },
 });
